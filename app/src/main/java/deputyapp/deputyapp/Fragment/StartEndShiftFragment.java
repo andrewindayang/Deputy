@@ -212,12 +212,6 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
                     @Override
                     public void success(String s, Response response) {
                         showToast(s);
-                        deputyapp.deputyapp.Util.AlertDialog.showDialogWithAlertHeaderSingleButton(getActivity(), "Start Shift", "You start your shift at : " + Util.convertDate(Util.getCurrentTime()) + "\n" + "with Latitude : "+ location.getLatitude() +" and Longitude : " + location.getLongitude(), new OnItemClickListener() {
-                            @Override
-                            public void onItemClick(Object o, int position) {
-
-                            }
-                        });
                     }
 
                     @Override
@@ -265,12 +259,6 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
                     @Override
                     public void success(String s, Response response) {
                         showToast(s);
-                        deputyapp.deputyapp.Util.AlertDialog.showDialogWithAlertHeaderSingleButton(getActivity(), "End Shift", "You end your shift at : " + Util.convertDate(Util.getCurrentTime()) + "\n" + "with Latitude : "+ location.getLatitude() +" and Longitude : " + location.getLongitude(), new OnItemClickListener() {
-                            @Override
-                            public void onItemClick(Object o, int position) {
-
-                            }
-                        });
                     }
 
                     @Override
