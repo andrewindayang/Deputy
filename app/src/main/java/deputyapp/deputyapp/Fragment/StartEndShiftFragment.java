@@ -194,24 +194,30 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
 
     @OnClick(R.id.startShift)
     public void onStartShiftClicked(){
-//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            setting.setVisibility(View.VISIBLE);
-//            checkGPS();
-//            View view = rootView.findViewById(R.id.activity_main);
-//            assert view != null;
-//            Snackbar.make(view, "Please enable your GPS", Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//
-//                }
-//            }).show();
-//        } else {
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            setting.setVisibility(View.VISIBLE);
+            checkGPS();
+            View view = rootView.findViewById(R.id.activity_main);
+            assert view != null;
+            Snackbar.make(view, "Please enable your GPS", Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            }).show();
+        } else {
             if (location != null) {
                 PostShift postShift = new PostShift(Util.getCurrentTime(), location.getLatitude() + "", location.getLongitude() + "");
                 NetworkManager.getInstance().postStartShift(postShift, new Callback<String>() {
                     @Override
                     public void success(String s, Response response) {
                         showToast(s);
+                        deputyapp.deputyapp.Util.AlertDialog.showDialogWithAlertHeaderSingleButton(getActivity(), "Start Shift", "You start your shift at : " + Util.convertDate(Util.getCurrentTime()) + "\n" + "with Latitude : "+ location.getLatitude() +" and Longitude : " + location.getLongitude(), new OnItemClickListener() {
+                            @Override
+                            public void onItemClick(Object o, int position) {
+
+                            }
+                        });
                     }
 
                     @Override
@@ -236,7 +242,7 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
                     }).show();
                 }
             }
-//        }
+        }
     }
 
 
@@ -259,6 +265,12 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
                     @Override
                     public void success(String s, Response response) {
                         showToast(s);
+                        deputyapp.deputyapp.Util.AlertDialog.showDialogWithAlertHeaderSingleButton(getActivity(), "End Shift", "You end your shift at : " + Util.convertDate(Util.getCurrentTime()) + "\n" + "with Latitude : "+ location.getLatitude() +" and Longitude : " + location.getLongitude(), new OnItemClickListener() {
+                            @Override
+                            public void onItemClick(Object o, int position) {
+
+                            }
+                        });
                     }
 
                     @Override

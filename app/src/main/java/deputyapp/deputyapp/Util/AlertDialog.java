@@ -14,4 +14,8 @@ public class AlertDialog {
     public static void showDialogWithHeaderTwoButton(Context context,String heading, String message, OnItemClickListener onItemClickListener) {
         new AlertView(heading, message, "Turn On", null, new String[]{"cancel"}, context, AlertView.Style.Alert,true,false,  onItemClickListener).show();
     }
+
+    public static void showDialogWithAlertHeaderSingleButton(Context context,String header,String message, OnItemClickListener onItemClickListener) {
+        new AlertView(header, message, null, new String[]{"OK"}, null, context, AlertView.Style.Alert,true,true,  onItemClickListener).show();
+    }
 }
