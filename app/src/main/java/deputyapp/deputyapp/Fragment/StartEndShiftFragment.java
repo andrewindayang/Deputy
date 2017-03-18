@@ -52,6 +52,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.squareup.picasso.Picasso;
 
+import AlertCustom.OnItemClickListener;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -72,9 +73,7 @@ import retrofit.client.Response;
 
 public class StartEndShiftFragment extends android.support.v4.app.Fragment implements LocationListener, GoogleMap.OnMarkerClickListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
-    private GoogleMap googleMap;
     private GoogleApiClient googleApiClient;
-    MapView mMapView;
     Location location;
     View rootView;
 
@@ -86,11 +85,6 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
         View rootView = inflater.inflate(R.layout.start_end_fragment, container, false);
         this.rootView = rootView;
         ButterKnife.bind(this, rootView);
-        mMapView = (MapView) rootView.findViewById(R.id.map);
-        mMapView.onCreate(savedInstanceState);
-
-        mMapView.onResume(); // needed to get the map to display immediately
-
         googleApiClient = new GoogleApiClient.Builder(getActivity())
                 .addApi(LocationServices.API)
                 .build();
@@ -100,14 +94,6 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
             e.printStackTrace();
         }
 
-
-        mMapView.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap mMap) {
-                googleMap = mMap;
-                startDemo();
-            }
-        });
         setLocationPermissionlayout();
         return rootView;
     }
@@ -117,6 +103,14 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
         alertOpenSetting();
     }
 
+    private void tellUserLocationNotTurnOn(String endOrStart){
+        deputyapp.deputyapp.Util.AlertDialog.showDialogWithoutAlertHeader(getActivity(), "Please turn on your location to " + endOrStart + " your shift.", new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+
+            }
+        });
+    }
     private void alertOpenSetting() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         alertDialogBuilder.setTitle("Location, Storage and Telephone permissions are required to use this app.");
@@ -135,30 +129,32 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
         myAppSettings.addCategory(Intent.CATEGORY_DEFAULT);
         myAppSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivityForResult(myAppSettings, 0);
+
     }
 
     @Override
     public void onResume(){
         super.onResume();
-        setLocationPermissionlayout();
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        mMapView.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mMapView.onDestroy();
     }
 
     @Override
     public void onLowMemory() {
         super.onLowMemory();
-        mMapView.onLowMemory();
     }
 
     @Override
@@ -192,30 +188,24 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
             setting.setVisibility(View.VISIBLE);
         } else{
             setting.setVisibility(View.GONE);
-            mMapView.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap mMap) {
-                    googleMap = mMap;
-                    startDemo();
-                }
-            });
+            startDemo();
         }
     }
 
     @OnClick(R.id.startShift)
     public void onStartShiftClicked(){
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            setting.setVisibility(View.VISIBLE);
-            checkGPS();
-            View view = rootView.findViewById(R.id.activity_main);
-            assert view != null;
-            Snackbar.make(view, "Please enable your GPS", Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                }
-            }).show();
-        } else {
+//        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            setting.setVisibility(View.VISIBLE);
+//            checkGPS();
+//            View view = rootView.findViewById(R.id.activity_main);
+//            assert view != null;
+//            Snackbar.make(view, "Please enable your GPS", Snackbar.LENGTH_INDEFINITE).setAction("OK", new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//
+//                }
+//            }).show();
+//        } else {
             if (location != null) {
                 PostShift postShift = new PostShift(Util.getCurrentTime(), location.getLatitude() + "", location.getLongitude() + "");
                 NetworkManager.getInstance().postStartShift(postShift, new Callback<String>() {
@@ -231,8 +221,8 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
                 });
             } else {
                 if (isNetworkAvailable()) {
-                    setting.setVisibility(View.VISIBLE);
                     checkGPS();
+                    setLocationPermissionlayout();
                 } else {
                     View view = rootView.findViewById(R.id.activity_main);
                     assert view != null;
@@ -246,7 +236,7 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
                     }).show();
                 }
             }
-        }
+//        }
     }
 
 
@@ -261,6 +251,7 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             setting.setVisibility(View.VISIBLE);
             checkGPS();
+            setLocationPermissionlayout();
         } else {
             if (location != null) {
                 PostShift postShift = new PostShift(Util.getCurrentTime(),location.getLatitude()+"",location.getLongitude()+"");
@@ -277,8 +268,8 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
                 });
             } else {
                 if (isNetworkAvailable()) {
-                    setting.setVisibility(View.VISIBLE);
                     checkGPS();
+                    setLocationPermissionlayout();
                 } else {
                     View view = rootView.findViewById(R.id.activity_main);
                     assert view != null;
@@ -299,30 +290,35 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             setting.setVisibility(View.VISIBLE);
             checkGPS();
+            setLocationPermissionlayout();
         } else {
-            LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-            if (!lm.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                checkGPS();
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-33.866906, 151.208896), 10));
-            } else {
-                googleMap.getUiSettings().setRotateGesturesEnabled(false);
-                googleMap.setIndoorEnabled(false);
-                googleMap.getUiSettings().setIndoorLevelPickerEnabled(false);
-                googleMap.getUiSettings().setZoomControlsEnabled(false);
-                googleMap.setMyLocationEnabled(true);
-                googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-                LocationManager lms = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                if(lms != null) {
-                    if (lms.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) != null) {
-                        final Location location = lms.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        this.location = location;
-                        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 15));
-                    }
-                }else{
-                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(-33.866906,151.208896), 10));
+            LocationManager lms = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            if(lms != null) {
+                if (lms.getLastKnownLocation(LocationManager.NETWORK_PROVIDER) != null) {
+                    final Location location = lms.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                    this.location = location;
                 }
+                if (lms.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                } else {
+                    alertGPSNeedTurnOn();
+                }
+            }else{
             }
         }
+    }
+
+    public void alertGPSNeedTurnOn(){
+        deputyapp.deputyapp.Util.AlertDialog.showDialogWithHeaderTwoButton(getActivity(), "GPS not available", "To start or end shift GPS need to be turn on", new OnItemClickListener() {
+            @Override
+            public void onItemClick(Object o, int position) {
+                if(position == -1){
+                    Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(viewIntent);
+                }else{
+
+                }
+            }
+        });
     }
 
     public void checkGPS() {

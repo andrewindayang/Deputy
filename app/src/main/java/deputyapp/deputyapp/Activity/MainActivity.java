@@ -12,12 +12,15 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,6 +28,7 @@ import deputyapp.deputyapp.Adapter.TabAdapter;
 import deputyapp.deputyapp.Fragment.FragmentActivity;
 import deputyapp.deputyapp.Network.ModelManager;
 import deputyapp.deputyapp.R;
+import deputyapp.deputyapp.dao.Business;
 
 public class MainActivity extends FragmentActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener{
 
@@ -33,6 +37,12 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
 
     @BindView(R.id.TabLayout)
     TabLayout tabLayout;
+
+    @BindView(R.id.businesss_icon)
+    ImageView businesss_icon;
+
+    @BindView(R.id.businesss_name)
+    TextView businesss_name;
 
     private final static int REQUEST_USER_LAST_LOCATION = 111;
     private GoogleApiClient mGoogleApiClient;
@@ -56,6 +66,9 @@ public class MainActivity extends FragmentActivity implements GoogleApiClient.Co
     }
 
     public void setTabLayout(){
+        Business business = ModelManager.getInstance().getBusiness();
+        Picasso.with(this).load(business.getLogo()).into(businesss_icon);
+        businesss_name.setText(business.getName());
         tabLayout.addTab(tabLayout.newTab().setText("Shift"));
         tabLayout.addTab(tabLayout.newTab().setText("Previous Shift"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);

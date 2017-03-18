@@ -2,6 +2,7 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:digit="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:id="@+id/fragmentHeader"
     android:layout_width="match_parent"
@@ -43,15 +44,27 @@
             android:id="@+id/hiddenButton"/>
     </RelativeLayout>
 
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/map"
-        android:layout_below="@+id/setting"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="20dp"
-        android:layout_above="@+id/buttonLayout"
-        tools:context="deputyapp.deputyapp.MapsActivity" />
+        android:layout_centerInParent="true"
+        android:layout_height="match_parent">
+
+        <AnalogClock
+            android:id="@+id/analog_clock"
+            android:layout_width="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content" />
+
+        <DigitalClock
+            android:id="@+id/digital_clock"
+            android:layout_below="@+id/analog_clock"
+            android:layout_width="match_parent"
+            android:textSize="20dp"
+            android:layout_centerInParent="true"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
 
     <LinearLayout
         android:id="@+id/buttonLayout"

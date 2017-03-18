@@ -12,6 +12,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -178,7 +179,7 @@ public class ShiftDetailsActivity extends FragmentActivity implements LocationLi
     }
 
 
-    @OnClick(R.id.setting)
+    @OnClick(R.id.hiddenButton)
     public void onSettingTurnOnLocationClicked(){
         alertOpenSetting();
     }
@@ -197,10 +198,8 @@ public class ShiftDetailsActivity extends FragmentActivity implements LocationLi
     }
 
     private void goToSettings() {
-        Intent myAppSettings = new Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + this.getPackageName()));
-        myAppSettings.addCategory(Intent.CATEGORY_DEFAULT);
-        myAppSettings.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivityForResult(myAppSettings, 0);
+        Intent viewIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+        startActivity(viewIntent);
     }
 
     @Override
