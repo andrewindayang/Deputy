@@ -217,8 +217,6 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
             }).show();
         } else {
             if (location != null) {
-                Log.d("TESTTT","SHA : " + ModelManager.getInstance().getSHA1().get(0).getSha1());
-                Log.d("TESTTT","Util.getCurrentTime() : " + Util.getCurrentTime());
                 PostShift postShift = new PostShift(Util.getCurrentTime(), location.getLatitude() + "", location.getLongitude() + "");
                 NetworkManager.getInstance().postStartShift(postShift, new Callback<String>() {
                     @Override
@@ -265,9 +263,7 @@ public class StartEndShiftFragment extends android.support.v4.app.Fragment imple
             checkGPS();
         } else {
             if (location != null) {
-                PostShift postShift = new PostShift(Util.getCurrentTime(),"-37.8136","144.9631");
-
-//                PostShift postShift = new PostShift(Util.getCurrentTime(),location.getLatitude()+"",location.getLongitude()+"");
+                PostShift postShift = new PostShift(Util.getCurrentTime(),location.getLatitude()+"",location.getLongitude()+"");
                 NetworkManager.getInstance().postEndShift(postShift, new Callback<String>() {
                     @Override
                     public void success(String s, Response response) {

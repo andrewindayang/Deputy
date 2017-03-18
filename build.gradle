@@ -10,9 +10,6 @@ buildscript {
 allprojects {
     repositories {
         maven { url "http://dl.bintray.com/populov/maven" }
-//        maven {
-//            url "https://github.com/omadahealth/omada-nexus/raw/master/release"
-//        }
         mavenCentral()
         jcenter()
         maven { url "https://jitpack.io" }
