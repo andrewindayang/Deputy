@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/offer_background"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_below="@+id/map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/shiftImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/startLatLon"
+            android:text="startLatLon"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:maxLines="2"
+            android:layout_marginTop="16dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginRight="20dp"
+            android:layout_width="match_parent"
+            android:layout_toRightOf="@id/shiftImage"
+            android:layout_toEndOf="@id/shiftImage"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/endLatLon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/startLatLon"
+            android:layout_marginEnd="32dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_toEndOf="@id/shiftImage"
+            android:layout_toRightOf="@id/shiftImage"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:text="endLatLon"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_below="@id/endLatLon"
+            android:layout_marginEnd="32dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="45dp"
+            android:layout_marginTop="5dp"
+            android:id="@+id/startEnd"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_toEndOf="@id/shiftImage"
+            android:layout_toRightOf="@id/shiftImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="start"/>
+    </RelativeLayout>
+</RelativeLayout>

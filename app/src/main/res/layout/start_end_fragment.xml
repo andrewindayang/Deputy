@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/fragmentHeader"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_alignParentTop="true"
+        android:layout_height="40dp"
+        android:visibility="visible"
+        android:id="@+id/setting"
+        android:background="@color/black">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginLeft="20dp"
+            android:textSize="15dp"
+            android:layout_centerInParent="true"
+            android:layout_height="wrap_content"
+            android:id="@+id/textviewSetting"
+            android:layout_centerVertical="true"
+            android:text="Please enable location permission"/>
+
+        <ImageButton
+            android:id="@+id/settingButton"
+            android:layout_width="35dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:background="@android:color/transparent"
+            android:src="@mipmap/settings" />
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:alpha="0"
+            android:id="@+id/hiddenButton"/>
+    </RelativeLayout>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
+        android:layout_below="@+id/setting"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:layout_above="@+id/buttonLayout"
+        tools:context="deputyapp.deputyapp.MapsActivity" />
+
+    <LinearLayout
+        android:id="@+id/buttonLayout"
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content">
+        <Button
+            android:id="@+id/startShift"
+            android:layout_width="@dimen/main_button_width"
+            android:layout_height="@dimen/main_button_height"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/lightBlue"
+            android:text="Start Shift"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+            android:textSize="@dimen/button_font_size"
+            android:background="@drawable/circular_button_rounded_stroke"/>
+
+        <Button
+            android:id="@+id/endShift"
+            android:layout_width="@dimen/main_button_width"
+            android:layout_height="@dimen/main_button_height"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/lightBlue"
+            android:layout_weight="1"
+            android:text="End Shift"
+            android:layout_margin="5dp"
+            android:textSize="@dimen/button_font_size"
+            android:background="@drawable/circular_button_rounded_stroke"/>
+    </LinearLayout>
+</RelativeLayout>

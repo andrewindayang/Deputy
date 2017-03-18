@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Font paths -->
+    <string name="bold_font_path">GothamHTF-Medium.ttf</string>
+    <string name="light_font_path">GothamHTF-Light.ttf</string>
+    <string name="regular_font_path">GothamHTF-Book.ttf</string>
+</resources>
